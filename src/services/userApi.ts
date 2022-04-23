@@ -18,8 +18,8 @@ const getUserInfo = async () =>
         Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
       },
     })
-    .then((response) => response)
-    .catch((error) => error);
+    .then((response: any) => response)
+    .catch((error: any) => error);
 
 const saveUserData = async (data: IMyData) =>
   await axios
@@ -28,8 +28,8 @@ const saveUserData = async (data: IMyData) =>
         Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
       },
     })
-    .then((response) => response)
-    .catch((error) => error);
+    .then((response: any) => response)
+    .catch((error: any) => error);
 
 const saveUserProfile = async (data: IMyData) =>
   await axios
@@ -38,8 +38,8 @@ const saveUserProfile = async (data: IMyData) =>
         Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
       },
     })
-    .then((response) => response)
-    .catch((error) => error.response.status);
+    .then((response: any) => response)
+    .catch((error: any) => error.response.status);
 
 const saveUserPassword = async (data: IMyPassword) =>
   await axios
@@ -48,7 +48,7 @@ const saveUserPassword = async (data: IMyPassword) =>
         Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
       },
     })
-    .then((response) => response)
-    .catch((error) => error.response.status);
+    .then((response: any) => response)
+    .catch((error: any) => error.response.status);
 
 export { getUserInfo, saveUserData, saveUserProfile, saveUserPassword };

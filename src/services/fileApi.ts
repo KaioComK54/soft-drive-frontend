@@ -7,8 +7,8 @@ const getUserFiles = async () =>
         Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
       },
     })
-    .then((response) => response)
-    .catch((error) => error);
+    .then((response: any) => response)
+    .catch((error: any) => error);
 
 const getAFile = async (id: string) => {
   await axios
@@ -18,7 +18,7 @@ const getAFile = async (id: string) => {
       },
       responseType: "blob",
     })
-    .then((response) => {
+    .then((response: any) => {
       const file = new Blob([response.data], {
         type: "application/octet-stream",
       });
@@ -29,7 +29,7 @@ const getAFile = async (id: string) => {
       anchor.href = fileURL;
       anchor.click();
     })
-    .catch((error) => error);
+    .catch((error: any) => error);
 };
 
 const sendUserFile = async (data: FormData) =>
@@ -40,8 +40,8 @@ const sendUserFile = async (data: FormData) =>
         "Content-Type": "multipart/form-data",
       },
     })
-    .then((response) => response)
-    .catch((error) => error.response);
+    .then((response: any) => response)
+    .catch((error: any) => error.response);
 
 const deleteAFile = async (id: string) => {
   await axios
@@ -50,8 +50,8 @@ const deleteAFile = async (id: string) => {
         Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
       },
     })
-    .then((response) => response)
-    .catch((error) => new Error(error));
+    .then((response: any) => response)
+    .catch((error: any) => new Error(error));
 };
 
 export { getUserFiles, getAFile, sendUserFile, deleteAFile };

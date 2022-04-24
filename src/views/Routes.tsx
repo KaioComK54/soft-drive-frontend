@@ -2,6 +2,7 @@ import React from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 
 import PrivateRoute, { PrivateRouteProps } from "./Routes/PrivateRoute";
+import ProtectedRoute, { ProtectedRouteProps } from "./Routes/ProtectedRoute";
 
 //Open route components
 import Login from "./Login";
@@ -12,23 +13,38 @@ import Dashboard from "./Dashboard";
 import Upload from "components/Dashboard/Routes/Upload";
 import Drive from "components/Dashboard/Routes/Drive";
 
-const defaultProtectedRouteProps: Omit<PrivateRouteProps, "outlet"> = {
+const defaultPrivateRouteProps: Omit<PrivateRouteProps, "outlet"> = {
   authenticationPath: "/entrar",
+};
+
+const defaultProtectedRouteProps: Omit<ProtectedRouteProps, "outlet"> = {
+  authenticationPath: "/meu-drive",
 };
 
 const RoutesContent = () => {
   return (
     <Routes>
-      <Route path="/entrar" element={<Login />} />
-      <Route path="/registro" element={<Register />} />
+      <Route
+        path="/entrar"
+        element={
+          <ProtectedRoute outlet={<Login />} {...defaultProtectedRouteProps} />
+        }
+      />
+
+      <Route
+        path="/registro"
+        element={
+          <ProtectedRoute
+            outlet={<Register />}
+            {...defaultProtectedRouteProps}
+          />
+        }
+      />
 
       <Route
         path="/"
         element={
-          <PrivateRoute
-            outlet={<Dashboard />}
-            {...defaultProtectedRouteProps}
-          />
+          <PrivateRoute outlet={<Dashboard />} {...defaultPrivateRouteProps} />
         }
       >
         <Route path="meu-drive" element={<Drive />}></Route>

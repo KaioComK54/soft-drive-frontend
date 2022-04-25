@@ -34,8 +34,8 @@ const useLogin = () => {
   };
 
   const validatePassword = (password: string) => {
-    if (password.length < 6) {
-      setErrorMessage("A senha deve ter no mínimo 6 dígitos!");
+    if (password.length < 8) {
+      setErrorMessage("A senha deve ter no mínimo 8 dígitos!");
       setErrors((errors) => [...errors, "password"]);
       throw new Error();
     }
@@ -56,8 +56,7 @@ const useLogin = () => {
   const handleSubmit = async (data: DataType) => {
     const result = await loginApi(data);
 
-    if (result >= 400)
-      throw new AuthError("Erro na autenticação!");
+    if (result >= 400) throw new AuthError("Erro na autenticação!");
 
     await setAuthToken(result?.data?.accessToken);
 

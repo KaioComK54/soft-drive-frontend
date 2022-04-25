@@ -57,7 +57,7 @@ const useRegister = () => {
     );
 
     if (includesSpecials || includesDirectory) {
-      setErrorMessage("O nome não podem conter caracteres especiais!");
+      setErrorMessage("O nome não pode conter caracteres especiais!");
       setErrors((errors) => [...errors, "firstName", "lastName"]);
       throw new Error();
     }
@@ -131,7 +131,7 @@ const useRegister = () => {
   const handleSubmit = async (data: DataType) => {
     const result = await registerApi(data);
 
-    if (result === 409) throw new AuthError("Erro no cadastro!");
+    if (result >= 400) throw new AuthError("Erro no cadastro!");
 
     alert.success("Cadastrado com sucesso!");
     navigate("/entrar");

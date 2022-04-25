@@ -59,7 +59,7 @@ const useProfile = () => {
     );
 
     if (includesSpecials || includesDirectory) {
-      setErrorMessage("O nome não podem conter caracteres especiais!");
+      setErrorMessage("O nome não pode conter caracteres especiais!");
       setErrors((errors) => [...errors, "firstName", "lastName"]);
       throw new Error();
     }
@@ -108,7 +108,7 @@ const useProfile = () => {
 
   const handleSubmitPassword = async (data: IMyPassword) => {
     const result = await saveUserPassword(data);
-    if (result === 400) throw new AuthError("Erro ao trocar a senha!");
+    if (result >= 400) throw new AuthError("Erro ao trocar a senha!");
     setOldPassword("");
     setNewPassword("");
     alert.success("Senha alterada com sucesso!");

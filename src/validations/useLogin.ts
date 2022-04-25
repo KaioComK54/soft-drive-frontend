@@ -56,7 +56,7 @@ const useLogin = () => {
   const handleSubmit = async (data: DataType) => {
     const result = await loginApi(data);
 
-    if (result === 401 || result === 400)
+    if (result >= 400)
       throw new AuthError("Erro na autenticação!");
 
     await setAuthToken(result?.data?.accessToken);

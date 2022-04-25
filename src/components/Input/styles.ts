@@ -1,6 +1,16 @@
 import styled from "styled-components";
 import { colors } from "styles/_global.style";
 
+export const Container = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  height: 48px;
+  margin-bottom: 24px;
+  background-color: transparent;
+`;
+
 export const InputBase = styled.input`
   width: 100%;
   height: 48px;
@@ -9,7 +19,6 @@ export const InputBase = styled.input`
   border: none;
   padding-left: 24px;
   font-size: 16px;
-  margin-bottom: 24px;
   background-color: rgba(196, 196, 200, 0.3);
 
   &.error {

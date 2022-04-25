@@ -9,8 +9,8 @@ const fileTypes = ["TXT", "PDF"];
 const maxSize = 2; // In .MB
 
 const fileErrorsMessage = {
-  nameError: "O nome do arquivo é inválido",
-  typeError: "O tipo do arquivo é inválido!",
+  nameError: "Verifique a formatação do nome do arquivo!",
+  typeError: "A extensão do arquivo informado é inválida!",
   sizeError: "O arquivo fornecido é muito grande!",
 };
 

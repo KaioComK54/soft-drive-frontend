@@ -1,5 +1,4 @@
 import { useState, useContext } from "react";
-import { useNavigate } from "react-router-dom";
 import {
   saveUserData,
   saveUserProfile,
@@ -8,9 +7,9 @@ import {
   IMyPassword,
 } from "services/userApi";
 import AuthError from "errors/authError";
-import { useAlert } from "react-alert";
 
 import UserContext from "context/UserContext";
+import AlertContext from "context/AlertContext";
 
 const nameBlackList = {
   special: `\`!@#$%^&*()+=\[\]{};':"\\|,.<>\/?~`,
@@ -22,6 +21,7 @@ const passwordRegex =
 
 const useProfile = () => {
   const user = useContext(UserContext);
+  const { openAlert } = useContext(AlertContext);
   const [firstName, setFirstName] = useState<string>(user?.firstName);
   const [lastName, setLastName] = useState<string>(user?.lastName);
   const [oldPassword, setOldPassword] = useState<string>("");
@@ -29,9 +29,6 @@ const useProfile = () => {
 
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [errors, setErrors] = useState<string[]>([]);
-
-  const navigate = useNavigate();
-  const alert = useAlert();
 
   const handleFirstname = (value: string) => {
     setFirstName(value);
@@ -103,7 +100,7 @@ const useProfile = () => {
     const result = await saveUserProfile(data);
     if (result >= 400) throw new AuthError("Erro ao alterar dados!");
     user?.fetchUserData();
-    alert.success("Dados alterados com sucesso!");
+    openAlert("success", "Dados alterados com sucesso!");
   };
 
   const handleSubmitPassword = async (data: IMyPassword) => {
@@ -111,7 +108,7 @@ const useProfile = () => {
     if (result >= 400) throw new AuthError("Erro ao trocar a senha!");
     setOldPassword("");
     setNewPassword("");
-    alert.success("Senha alterada com sucesso!");
+    openAlert("success", "Senha alterada com sucesso!");
   };
 
   return {

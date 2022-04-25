@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import registerApi, { DataTypeComplete, DataType } from "services/registerApi";
-import AuthError from "errors/authError";
-import { useAlert } from "react-alert";
+import HttpError from "errors/httpError";
+
+import AlertContext from "context/AlertContext";
 
 const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
 
@@ -24,8 +25,9 @@ const useRegister = () => {
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [errors, setErrors] = useState<string[]>([]);
 
+  const { openAlert } = useContext(AlertContext);
+
   const navigate = useNavigate();
-  const alert = useAlert();
 
   const handleFirstname = (value: string) => {
     setFirstName(value);
@@ -131,9 +133,9 @@ const useRegister = () => {
   const handleSubmit = async (data: DataType) => {
     const result = await registerApi(data);
 
-    if (result >= 400) throw new AuthError("Erro no cadastro!");
+    if (result instanceof HttpError) throw result;
 
-    alert.success("Cadastrado com sucesso!");
+    openAlert("success", "Cadastrado com sucesso!");
     navigate("/entrar");
   };
 

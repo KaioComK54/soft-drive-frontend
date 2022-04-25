@@ -1,9 +1,9 @@
 import { useState, useContext, useEffect } from "react";
-import { useAlert } from "react-alert";
 import { sendUserFile, getAFile, deleteAFile } from "services/fileApi";
 
 import UserFileContext from "context/UserFileContext";
-import FileError from "errors/fileError";
+import AlertContext from "context/AlertContext";
+import HttpError from "errors/httpError";
 
 const fileTypes = ["TXT", "PDF"];
 const maxSize = 2; // In .MB
@@ -21,8 +21,8 @@ const fileNameBlackList = {
 
 const useFile = () => {
   const [file, setFile] = useState<any>();
-  const alert = useAlert();
   const { fetchUserFilesRequest } = useContext(UserFileContext);
+  const { openAlert } = useContext(AlertContext);
 
   const [errorMessage, setErrorMessage] = useState<string>("");
 
@@ -38,19 +38,23 @@ const useFile = () => {
 
     const result = await sendUserFile(data);
 
-    if (result.status === 422)
-      throw new FileError("Limite de envio de arquivo excedido!");
-
-    if (result.status >= 400) throw new FileError("Erro ao enviar o arquivo!");
+    if (result instanceof HttpError) throw result;
 
     setFile(null);
-    alert.success("Arquivo enviado com sucesso!");
+    openAlert("success", "Arquivo enviado com sucesso");
   };
 
-  const handleDownload = async (id: string) => await getAFile(id);
+  const handleDownload = async (id: string) => {
+    const result = await getAFile(id);
+
+    if (result instanceof HttpError) throw result;
+  };
 
   const handleDelete = async (id: string) => {
-    await deleteAFile(id);
+    const result = await deleteAFile(id);
+
+    if (result instanceof HttpError) throw result;
+
     fetchUserFilesRequest();
   };
 

@@ -1,4 +1,5 @@
 import axios from "services/api.cofig";
+import HttpError from "errors/httpError";
 
 const getUserFiles = async () =>
   await axios
@@ -8,10 +9,10 @@ const getUserFiles = async () =>
       },
     })
     .then((response: any) => response)
-    .catch((error: any) => error);
+    .catch((error: any) => new HttpError(error.message, error.response.status));
 
 const getAFile = async (id: string) => {
-  await axios
+  return await axios
     .get(`/file/${id}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
@@ -28,8 +29,9 @@ const getAFile = async (id: string) => {
       anchor.download = response.headers["filename"];
       anchor.href = fileURL;
       anchor.click();
+      return response.data;
     })
-    .catch((error: any) => error);
+    .catch((error: any) => new HttpError(error.message, error.response.status));
 };
 
 const sendUserFile = async (data: FormData) =>
@@ -41,17 +43,17 @@ const sendUserFile = async (data: FormData) =>
       },
     })
     .then((response: any) => response)
-    .catch((error: any) => error.response);
+    .catch((error: any) => new HttpError(error.message, error.response.status));
 
 const deleteAFile = async (id: string) => {
-  await axios
+  return await axios
     .delete(`file/${id}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
       },
     })
     .then((response: any) => response)
-    .catch((error: any) => new Error(error));
+    .catch((error: any) => new HttpError(error.message, error.response.status));
 };
 
 export { getUserFiles, getAFile, sendUserFile, deleteAFile };

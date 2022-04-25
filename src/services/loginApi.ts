@@ -1,5 +1,5 @@
 import axios from "./api.cofig";
-import AuthError from "errors/authError";
+import HttpError from "errors/httpError";
 
 export interface DataType {
   email: string;
@@ -10,6 +10,6 @@ const loginApi = async (data: DataType) =>
   await axios
     .post("/auth/signin", { ...data })
     .then((response: any) => response)
-    .catch((error: any) => new AuthError(error.message));
+    .catch((error: any) => new HttpError(error.message, error.response.status));
 
 export default loginApi;

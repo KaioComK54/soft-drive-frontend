@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import loginApi, { DataType } from "services/loginApi";
 import { setAuthToken, getAuthToken } from "utils/useAuth";
 import AuthError from "errors/authError";
+import HttpError from "errors/httpError";
 
 const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
 
@@ -56,7 +57,7 @@ const useLogin = () => {
   const handleSubmit = async (data: DataType) => {
     const result = await loginApi(data);
 
-    if (result instanceof AuthError) throw result;
+    if (result instanceof HttpError) throw result;
 
     await setAuthToken(result?.data?.accessToken);
 
